@@ -26,7 +26,8 @@ use Illuminate\Support\Facades\Route;
 | contains the "web" middleware group. Now create something great!
 |
 */
-Route::get('cart',[MainCartController::class,'index'])->name('cart.index');
+Route::middleware('allow_cors')->group(function(){
+    Route::get('cart',[MainCartController::class,'index'])->name('cart.index');
 Route::post('cart/ajax',[MainCartController::class,'ajax'])->name('cart.ajax');
 Route::get('cart/delete/{rowId?}',[MainCartController::class,'delete'])->name('cart.delete');
 Route::get('checkout',[MainCheckOutController::class,'index'])->name('checkout.index');
@@ -85,3 +86,6 @@ Route::get('{product_cat_slug}/{product_sub_cat_slug}',[MainProductController::c
 Route::get('{product_cat_slug}/{product_sub_cat_slug}/filter',[MainProductController::class,'product_by_category_filter'])->name('product.category.filter');
 Route::get('{product_slug}',[MainProductController::class,'show'])->name('product.show');
 Route::post('cart/add/{product}',[MainCartController::class,'add'])->name('cart.add');
+
+
+});
