@@ -5,17 +5,18 @@
         <div class="card-header font-weight-bold d-flex justify-content-between align-items-center">
             <h5 class="m-0 ">Danh sách đơn hàng</h5>
             <div class="form-search form-inline">
-                <form action="#">
-                    <input type="" class="form-control form-search" placeholder="Tìm kiếm">
+                <form action="{{route('admin.order.search')}}" method="post">
+                @csrf
+                    <input type="text" name="key_word" class="form-control form-search" placeholder="Tìm kiếm">
                     <input type="submit" name="btn-search" value="Tìm kiếm" class="btn btn-primary">
                 </form>
             </div>
         </div>
         <div class="card-body">
             <div class="analytic">
-                <a href="" class="text-primary">Trạng thái 1<span class="text-muted">(10)</span></a>
-                <a href="" class="text-primary">Trạng thái 2<span class="text-muted">(5)</span></a>
-                <a href="" class="text-primary">Trạng thái 3<span class="text-muted">(20)</span></a>
+                <a href="{{route('admin.order.index')}}" class="text-primary">Tất cả<span class="text-muted">({{$processing_orders+$success_orders}})</span></a>
+                <a href="{{route('admin.order.index',0)}}" class="text-primary">Đang xử lí<span class="text-muted">({{$processing_orders}})</span></a>
+                <a href="{{route('admin.order.index',1)}}" class="text-primary">Thành công<span class="text-muted">({{$success_orders}})</span></a>
             </div>
             <form action="{{route('admin.order.action')}}" method="post">
                 @csrf

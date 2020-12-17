@@ -15,10 +15,17 @@ class AllowCors
      */
     public function handle($request, Closure $next)
     {
-        return $next($request)
-        ->header('Access-Control-Allow-Origin', 'https://ismartshop.herokuapp.com/')
-        ->header('Access-Control-Allow-Methods', '*')
-        ->header('Access-Control-Allow-Credentials', 'true')
-        ->header('Access-Control-Allow-Headers', 'X-CSRF-Token');
+        header('Access-Control-Allow-Origin: *');
+        $headers=[
+            'Access-Control-Allow-Method'=>'POST, GET, PUT, DELETE',
+            'Access-Control-Allow-Headers'=>'Content-Type, X-Auth-Token,Origin,Authorization',
+        ];
+        $response=$next($request);
+        foreach($headers as $key=>$item)
+        {
+            $response->header($key,$item);
+        }
+        return $response;
+
     }
 }

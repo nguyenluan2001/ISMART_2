@@ -5,17 +5,18 @@
         <div class="card-header font-weight-bold d-flex justify-content-between align-items-center">
             <h5 class="m-0 ">Danh sách sản phẩm</h5>
             <div class="form-search form-inline">
-                <form action="#">
-                    <input type="" class="form-control form-search" placeholder="Tìm kiếm">
+                <form action="{{route('admin.product.search')}}" method="post">
+                @csrf
+                    <input type="text" name="key_word" class="form-control form-search" placeholder="Tìm kiếm">
                     <input type="submit" name="btn-search" value="Tìm kiếm" class="btn btn-primary">
                 </form>
             </div>
         </div>
         <div class="card-body">
             <div class="analytic">
-                <a href="" class="text-primary">Trạng thái 1<span class="text-muted">(10)</span></a>
-                <a href="" class="text-primary">Trạng thái 2<span class="text-muted">(5)</span></a>
-                <a href="" class="text-primary">Trạng thái 3<span class="text-muted">(20)</span></a>
+                <a href="{{route('admin.product.index')}}" class="text-primary">Tất cả<span class="text-muted">({{$stocking+$outOfStock}})</span></a>
+                <a href="{{route('admin.product.index',1)}}" class="text-primary">Còn hàng<span class="text-muted">({{$stocking}})</span></a>
+                <a href="{{route('admin.product.index',0)}}" class="text-primary">Hết hàng<span class="text-muted">({{$outOfStock}})</span></a>
             </div>
             <div class="form-action form-inline py-3">
                 <select class="form-control mr-1" id="">

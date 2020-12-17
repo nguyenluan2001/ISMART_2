@@ -11,11 +11,32 @@ use Intervention\Image\Facades\Image;
 
 class ProductController extends Controller
 {
-    function index()
+    function index($status=null)
     {
-        $num_per_page=1;
-        $products=Product::orderBy('id','desc')->paginate($num_per_page);
-        return view('admin.products.index',compact('products'));
+        $num_per_page=5;
+        $products=[];
+        if($status==null)
+        {
+            $products=Product::orderBy('id','desc')->paginate($num_per_page);
+
+        }
+        if($status=='1')
+        {
+            $products=Product::where('qty','>','0')->paginate($num_per_page);
+
+        }
+        if($status=='0')
+        {
+            $products=Product::where('qty','0')->paginate($num_per_page);
+
+        }
+         if(session('product_search'))
+        {
+            $products=session('product_search');
+        }
+        $stocking=Product::where('qty','>',0)->count();
+        $outOfStock=Product::where('qty',0)->count();
+        return view('admin.products.index',compact('products','stocking','outOfStock'));
     }
     function create()
     {
@@ -72,5 +93,11 @@ class ProductController extends Controller
     {
         $product->delete();
         return back();
+    }
+    function search()
+    {
+        $key_word=request()->key_word;
+        $product=Product::where('product_name','like',"%$key_word%")->paginate(5);
+        return redirect()->route('admin.product.index')->with('product_search',$product);
     }
 }

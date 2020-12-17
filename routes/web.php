@@ -50,7 +50,6 @@ Route::middleware('allow_cors')->group(function () {
             Route::get('delete/{slug}', [PageController::class, 'delete'])->name('delete');
         });
         Route::prefix('product')->name('product.')->group(function () {
-            Route::get('/', [ProductController::class, 'index'])->name('index');
             Route::get('create', [ProductController::class, 'create'])->name('create');
             Route::post('store', [ProductController::class, 'store'])->name('store');
             Route::get('edit/{slug}', [ProductController::class, 'edit'])->name('edit');
@@ -58,16 +57,20 @@ Route::middleware('allow_cors')->group(function () {
             Route::get('delete/{product}', [ProductController::class, 'delete'])->name('delete');
             Route::get('category', [ProductCategoryController::class, 'index'])->name('category.index');
             Route::post('category', [ProductCategoryController::class, 'store'])->name('category.store');
+            Route::post('search',[ProductController::class,'search'])->name('search');
+            Route::get('/{status?}', [ProductController::class, 'index'])->name('index');
+
         });
         Route::prefix('ajax')->name('ajax.')->group(function () {
             Route::post('product_category', [AjaxController::class, 'product_category'])->name('product_category');
         });
         Route::prefix('order')->name('order.')->group(function () {
-            Route::get('/', [AdminOrderController::class, 'index'])->name('index');
+            Route::get('/{status?}', [AdminOrderController::class, 'index'])->name('index');
             Route::get('edit/{order}', [AdminOrderController::class, 'edit'])->name('edit');
             Route::post('update/{order}', [AdminOrderController::class, 'update'])->name('update');
             Route::get('delete/{order}', [AdminOrderController::class, 'delete'])->name('delete');
             Route::post('action', [AdminOrderController::class, 'action'])->name('action');
+            Route::post('search',[AdminOrderController::class,'search'])->name('search');
         });
     });
     Auth::routes();
