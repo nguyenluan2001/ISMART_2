@@ -18,6 +18,9 @@
     <div id="wrapper" class="wp-inner clearfix">
         <div class="section" id="info-cart-wp">
             <div class="section-detail table-responsive">
+                @if(Cart::count()==0)
+                <p>Không có sản phẩm nào trong giỏ hàng</p>
+                @else
                 <table class="table">
                     <thead>
                         <tr>
@@ -45,7 +48,9 @@
                             <td>
                                 <input id="qty" type="number" name="qty" data-id="{{$item->rowId}}" value="{{$item->qty}}" class="num-order" min="1" max="{{$item->options->qty}}">
                             </td>
-                            <td ><p id="sub_total_{{$item->rowId}}">{{number_format($item->subtotal)}}Đ</p></td>
+                            <td>
+                                <p id="sub_total_{{$item->rowId}}">{{number_format($item->subtotal)}}Đ</p>
+                            </td>
                             <td>
                                 <a href="{{route('cart.delete',$item->rowId)}}" onclick="return confirm('Bạn có muốn xóa sản phẩm này không?')" title="" class="del-product"><i class="fa fa-trash-o"></i></a>
                             </td>
@@ -73,12 +78,14 @@
                         </tr>
                     </tfoot>
                 </table>
+                @endif
+
             </div>
         </div>
         <div class="section" id="action-cart-wp">
             <div class="section-detail">
                 <a href="{{route('index')}}" title="" id="buy-more">Mua tiếp</a><br />
-                <a href="{{route('cart.delete')}}" title="" id="delete-cart">Xóa giỏ hàng</a>
+                <a onclick="return confirm('Bạn có muốn xóa toàn bộ giỏ hàng?')" href="{{route('cart.delete')}}" title="" id="delete-cart">Xóa giỏ hàng</a>
             </div>
         </div>
     </div>

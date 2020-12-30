@@ -21,6 +21,7 @@
     <script src="public/main/js/bootstrap/bootstrap.min.js" type="text/javascript"></script>
     <script src="public/main/js/carousel/owl.carousel.js" type="text/javascript"></script>
     <script src="public/main/js/main.js" type="text/javascript"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
 </head>
 
@@ -37,17 +38,13 @@
                                     <a href="{{route('index')}}" title="">Trang chủ</a>
                                 </li>
                                 <li>
-                                    <a href="?page=category_product" title="">Sản phẩm</a>
+                                    <a href="{{route('blog.index')}}" title="">Blog</a>
                                 </li>
+                                @foreach($pages as $item)
                                 <li>
-                                    <a href="?page=blog" title="">Blog</a>
+                                    <a href="{{route('page.index',$item->slug)}}" title="">{{$item->title}}</a>
                                 </li>
-                                <li>
-                                    <a href="?page=detail_blog" title="">Giới thiệu</a>
-                                </li>
-                                <li>
-                                    <a href="?page=detail_blog" title="">Liên hệ</a>
-                                </li>
+                                @endforeach
                             </ul>
                         </div>
                     </div>
@@ -56,8 +53,9 @@
                     <div class="wp-inner">
                         <a href="{{route('index')}}" title="" id="logo" class="fl-left"><img src="public/main/images/logo.png" /></a>
                         <div id="search-wp" class="fl-left">
-                            <form method="POST" action="">
-                                <input type="text" name="s" id="s" placeholder="Nhập từ khóa tìm kiếm tại đây!">
+                            <form method="post"  action="{{route('product.search')}}">
+                                @csrf
+                                <input type="text" name="key_word" id="s" placeholder="Nhập từ khóa tìm kiếm tại đây!">
                                 <button type="submit" id="sm-s">Tìm kiếm</button>
                             </form>
                         </div>

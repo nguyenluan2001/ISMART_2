@@ -90,4 +90,10 @@ class MainProductController extends Controller
         }
         return view('category_product', compact('products', 'product_sub_cat','filter'));
     }
+    function search()
+    {
+        $key_word=request()->key_word;
+        $products=Product::where('product_name','like',"%$key_word%")->get();
+        return view('search',compact('products','key_word'));
+    }
 }

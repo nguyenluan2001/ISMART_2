@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Product;
 use App\ProductCat;
+use App\ProductSubCat;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 use Intervention\Image\Facades\Image;
@@ -99,5 +100,90 @@ class ProductController extends Controller
         $key_word=request()->key_word;
         $product=Product::where('product_name','like',"%$key_word%")->paginate(5);
         return redirect()->route('admin.product.index')->with('product_search',$product);
+    }
+    function product_by_category($product_cat_slug,$product_sub_cat_slug,$status=null)
+    {
+        $product_cat_id=ProductCat::whereSlug($product_cat_slug)->get()[0]['id'];
+        $product_sub_cat_id=ProductSubCat::whereSlug($product_sub_cat_slug)->get()[0]['id'];
+        if($status==null)
+        {
+            $products=Product::where([
+                [
+                    'product_cat_id',
+                    $product_cat_id,
+                ],
+                [
+                    'product_sub_cat_id',
+                    $product_sub_cat_id
+                ]
+                ])->paginate(5);
+        }
+       else if($status=='1')
+       {
+        $products=Product::where([
+            [
+                'product_cat_id',
+                $product_cat_id,
+            ],
+            [
+                'product_sub_cat_id',
+                $product_sub_cat_id
+            ],
+            [
+                'qty',
+                '>',
+                '1'
+            ]
+            ])->paginate(5);
+       }
+       else if($status=='0')
+       {
+        $products=Product::where([
+            [
+                'product_cat_id',
+                $product_cat_id,
+            ],
+            [
+                'product_sub_cat_id',
+                $product_sub_cat_id
+            ],
+            [
+                'qty',
+                '=',
+                '0'
+            ]
+            ])->paginate(5);
+       }
+        $stocking=Product::where([
+            [
+                'product_cat_id',
+                $product_cat_id,
+            ],
+            [
+                'product_sub_cat_id',
+                $product_sub_cat_id
+            ],
+            [
+                'qty',
+                '>',
+                '0'
+            ]
+            ])->count();
+            $outOfStock=Product::where([
+                [
+                    'product_cat_id',
+                    $product_cat_id,
+                ],
+                [
+                    'product_sub_cat_id',
+                    $product_sub_cat_id
+                ],
+                [
+                    'qty',
+                    '==',
+                    '0'
+                ]
+                ])->count();
+        return view('admin.products.product_by_category',compact('products','stocking','outOfStock','product_cat_slug','product_sub_cat_slug'));
     }
 }

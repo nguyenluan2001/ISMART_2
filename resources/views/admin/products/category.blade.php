@@ -37,7 +37,7 @@
                     @foreach($product_category as $item)
                     <h5>===== {{$item->product_cat_title}}</h5>
                     @foreach($item['product_sub_cats'] as $value)
-                    <h5>------------- {{$value['product_sub_cat_title']}}</h5>
+                    <h5>------------- <a href="{{route('admin.product.product_by_category',[$item->slug,$value->slug])}}">{{$value['product_sub_cat_title']}}</a></h5>
 
                     @endforeach
 

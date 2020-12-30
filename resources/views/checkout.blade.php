@@ -87,7 +87,7 @@
                                 <label for="direct-payment">Thanh toán tại cửa hàng</label>
                             </li>
                             <li>
-                                <input type="radio" id="payment-home" name="payment" value="payment_home">
+                                <input type="radio" id="payment-home" name="payment" value="payment_home" checked="checked">
                                 <label for="payment-home">Thanh toán tại nhà</label>
                             </li>
                         </ul>

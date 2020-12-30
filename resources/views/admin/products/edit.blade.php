@@ -59,9 +59,12 @@
                         <input type="file" class="custom-file-input" id="file" name="product_img">
                         <label for="file" class="custom-file-label">Choose file</label>
                     </div>
-
-
                 </div>
+                <div class="form-group">
+                    <img src="{{asset('public/uploads/products/'.$product[0]->product_img)}}" alt="">
+                </div>
+
+
             
 
 

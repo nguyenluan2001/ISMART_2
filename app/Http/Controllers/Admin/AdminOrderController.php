@@ -25,7 +25,7 @@ class AdminOrderController extends Controller
         {
             $orders= session('order_search');
         }
-        $success_orders = Order::whereStatus('0')->count();
+        $success_orders = Order::whereStatus('1')->count();
         $processing_orders = Order::all()->count() - $success_orders;
         return view('admin.orders.index', compact('orders', 'num_per_page', 'success_orders', 'processing_orders'));
     }
